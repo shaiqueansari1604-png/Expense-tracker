@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expense Tracker</title>
+</head>
+<body>
+  <h1>Expense Tracker</h1>
+  <h3>Total Spent: ${{ total }}</h3>
+
+  <form action="/add" method="POST">
+    <input type="text" name="title" placeholder="Description" required/>
+    <input type="number" name="amount" placeholder="Amount" step="0.01" required/>
+    <select name="category">
+      {% for cat in categories %}
+      <option value="{{ cat }}">{{ cat }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <hr/>
+  <h3>Expenses:</h3>
+  <ul>
+  {% for e in expenses %}
+    <li>
+      {{ e.title }} — ${{ e.amount }} 
+      [{{ e.category }}] {{ e.date }}
+      <a href="/delete/{{ e.id }}">🗑️</a>
+    </li>
+  {% else %}
+    <li>No expenses yet!</li>
+  {% endfor %}
+  </ul>
+
+  <hr/>
+  <h3>By Category:</h3>
+  <ul>
+  {% for cat, amt in breakdown.items() %}
+    <li>{{ cat }}: ${{ amt }}</li>
+  {% endfor %}
+  </ul>
+
+</body>
+</html>
